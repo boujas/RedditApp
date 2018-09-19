@@ -11,6 +11,9 @@ class Consts {
         val DB_NAME = "DB_FEED"
 
         val ENDPOINT_URL = "https://api.reddit.com/"
+        val POST_URL = "https://www.reddit.com"
+
+        val BUNDLE_URL = "post_url"
     }
 
 }

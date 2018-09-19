@@ -1,4 +1,4 @@
-package com.example.user.myapplication.ui
+package com.example.user.myapplication.ui.fragments
 
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
@@ -14,10 +14,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.PresenterType
 import com.example.user.myapplication.adapters.PaginationScrollListener
 
-
 import com.example.user.myapplication.R
 import com.example.user.myapplication.adapters.FeedAdapter
 import com.example.user.myapplication.models.FeedItemEntity
+import com.example.user.myapplication.ui.presenters.FeedPresenter
+import com.example.user.myapplication.ui.views.FeedView
 
 class FeedFragment : MvpFragment(), FeedView {
 
@@ -28,6 +29,9 @@ class FeedFragment : MvpFragment(), FeedView {
     var feed: ArrayList<FeedItemEntity> = ArrayList();
     var recyclerView: RecyclerView? = null
 
+    var isLastPage: Boolean = false
+    var isLoading: Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
@@ -36,16 +40,17 @@ class FeedFragment : MvpFragment(), FeedView {
         return view
     }
 
-    var isLastPage: Boolean = false
-    var isLoading: Boolean = false
-
     private fun setupRecyclerView() {
-        adapter = FeedAdapter(feed, activity)
+        val onClickListener : (String) -> Unit = {url ->
+                feedPresenter.navigateToPost(activity, url)
+        }
+
+        adapter = FeedAdapter(feed, activity, onClickListener)
         val mLayoutManager = LinearLayoutManager(activity.applicationContext)
-        recyclerView?.setLayoutManager(mLayoutManager)
-        recyclerView?.setItemAnimator(DefaultItemAnimator())
+        recyclerView?.layoutManager = mLayoutManager
+        recyclerView?.itemAnimator = DefaultItemAnimator()
         recyclerView?.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
-        recyclerView?.setAdapter(adapter)
+        recyclerView?.adapter = adapter
         recyclerView?.addOnScrollListener(object : PaginationScrollListener(mLayoutManager) {
             override fun isLastPage(): Boolean {
                 return isLastPage

@@ -1,4 +1,4 @@
-package com.example.user.myapplication.ui
+package com.example.user.myapplication.ui.views
 
 import com.arellomobile.mvp.MvpView
 import com.example.user.myapplication.models.FeedItemEntity

@@ -1,7 +1,7 @@
 package com.example.user.myapplication.di
 
 import com.example.user.myapplication.repository.FeedRepositoryImpl
-import com.example.user.myapplication.ui.FeedPresenter
+import com.example.user.myapplication.ui.presenters.FeedPresenter
 import dagger.Component
 import javax.inject.Singleton
 
